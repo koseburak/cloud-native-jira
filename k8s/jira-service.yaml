@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jira
+  namespace: devops
+  labels:
+    app: jira
+spec:
+  type: NodePort
+  ports:
+   - port: 30100
+     protocol: TCP
+     targetPort: 8080
+     nodePort: 30100
+     name: port-jira
+  selector:
+   app: jira
