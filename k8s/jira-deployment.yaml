@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jira
+  namespace: devops
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jira
+    spec:
+      containers:
+        - name: jira
+          image: cptactionhank/atlassian-jira-software:8.1.0
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8080
+              name: port-jira
+          envFrom:
+            - configMapRef:
+                name: jira-config
+          volumeMounts:
+          - mountPath: "/var/lib/atlassian/jira/data"
+            name: jira-vol
+      volumes:
+      - name: jira-vol
+        persistentVolumeClaim:
+          claimName: jira-pv-claim

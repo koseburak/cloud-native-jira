@@ -1,0 +1,33 @@
+# persistent volume for jira software
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: jira-pv-volume
+  namespace: devops
+  labels:
+    type: local
+    app: jira
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/kube-data/jira"
+---
+# persistent volume claim for jira software
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jira-pv-claim
+  namespace: devops
+  labels:
+    app: jira
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
